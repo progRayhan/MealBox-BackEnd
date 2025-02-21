@@ -1,13 +1,6 @@
 from pathlib import Path
-from decouple import Config, RepositoryEnv
+from decouple import config
 import dj_database_url
-
-# Load env configuration
-base_config = Config(RepositoryEnv("env/.env.base"))
-ENVIRONMENT = base_config("DJANGO_ENV", default="dev")
-env_file = f"env/.env.{ENVIRONMENT}"
-config = Config(RepositoryEnv(env_file))
-# Load env configuration
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
