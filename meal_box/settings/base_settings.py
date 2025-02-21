@@ -1,10 +1,19 @@
 from pathlib import Path
+from decouple import Config, RepositoryEnv
+import dj_database_url
+
+# Load env configuration
+base_config = Config(RepositoryEnv("env/.env.base"))
+ENVIRONMENT = base_config("DJANGO_ENV", default="dev")
+env_file = f"env/.env.{ENVIRONMENT}"
+config = Config(RepositoryEnv(env_file))
+# Load env configuration
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = 'django-insecure-f@*!%48ytb14uz-uayjz@#2)ysp996(x3897_#g6uc35y1dy2-'
 
-DEBUG = True
+DEBUG = config("DEBUG", cast=bool, default=False)
 
 ALLOWED_HOSTS = []
 
@@ -47,11 +56,10 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'meal_box.wsgi.application'
 
+DATABASE_URL = config("DATABASE_URL")
+
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+    'default': dj_database_url.parse(DATABASE_URL)
 }
 
 AUTH_PASSWORD_VALIDATORS = [

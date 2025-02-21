@@ -4,7 +4,10 @@ __pycache__/
 *$py.class
 
 # Virtualenv
-env/
+# env/
+.env.base
+.env.dev
+.env.prod
 venv/
 .venv/
 
