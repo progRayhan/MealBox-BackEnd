@@ -22,3 +22,21 @@ class Employee(models.Model):
         verbose_name = "Employee"
         verbose_name_plural = "Employes"
         db_table = "employee"
+
+
+class Staff(models.Model):
+    phone_number = models.CharField(max_length=11, validators=[PHONE_REGEX], unique=True)
+    email = models.EmailField(max_length=100, unique=True)
+    name = models.CharField(max_length=100)
+    employee = models.ForeignKey(Employee, on_delete=models.DO_NOTHING, related_name="employee")
+    address = models.TextField()
+    office = models.CharField(max_length=200)
+    office_address = models.TextField()
+
+    def __str__(self):
+        return self.phone_number
+    
+    class Meta:
+        verbose_name = "Staff"
+        verbose_name_plural = "Staffs"
+        db_table = "staff"
