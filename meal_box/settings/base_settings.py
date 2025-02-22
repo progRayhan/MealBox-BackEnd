@@ -25,6 +25,7 @@ THIRD_PARTY_APPS = [
 
 LOCAL_APPS = [
     "meal_user",
+    "meal_manager",
 ]
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
