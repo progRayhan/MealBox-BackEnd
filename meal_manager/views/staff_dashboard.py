@@ -11,6 +11,7 @@ class StaffDashboardView(View):
         staff = Staff.objects.filter(phone_number=staff_phone).first()
         staff_meals = MealTracker.objects.filter(staff=staff)
         context = {
+            "staff_name": staff.name,
             "total_sales": staff.total_sales,
             "order_completed": staff.order_completed,
             "total_employee": staff.total_employee,
