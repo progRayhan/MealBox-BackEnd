@@ -13,7 +13,7 @@ class EmployeeAdmin(admin.ModelAdmin):
 
 @admin.register(Staff)
 class StaffAdmin(admin.ModelAdmin):
-    list_display = ("name", "phone_number", "email", "employee", "office")
+    list_display = ("name", "phone_number", "email", "employee", "office", "total_sales", "order_completed", "total_employee",)
     search_fields = ("name", "phone_number", "email", "employee__phone_number")
     list_filter = ("office",)
     ordering = ("name",)

@@ -8,6 +8,11 @@ urlpatterns = [
         view=admin.site.urls,
         name="admin",
     ),
+    path(
+        route='meal/',
+        view=include("meal_manager.urls"),
+        name="meal_manager",
+    )
 ]
 
 if settings.DEBUG:

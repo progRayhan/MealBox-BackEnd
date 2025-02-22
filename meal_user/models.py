@@ -32,6 +32,9 @@ class Staff(models.Model):
     address = models.TextField()
     office = models.CharField(max_length=200)
     office_address = models.TextField()
+    total_sales = models.PositiveIntegerField(default=0)
+    order_completed = models.PositiveIntegerField(default=0)
+    total_employee = models.PositiveIntegerField(default=0)
 
     def __str__(self):
         return self.phone_number
