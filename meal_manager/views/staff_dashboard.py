@@ -8,5 +8,10 @@ class StaffDashboardView(View):
         staff_phone = "01942531394" # Todo: get phone from token
 
         staff_meals = MealTracker.objects.filter(staff__phone_number=staff_phone)
-        context = {"staff_meals": staff_meals}
+        context = {
+            "total_sales": 1500,
+            "order_completed": 150,
+            "total_employee": 50,
+            "staff_meals": staff_meals
+        }
         return render(request, "dashboard.html", context)

@@ -140,6 +140,10 @@
             background-color: white;
         }
 
+        .table-container {
+            margin-top: 25px;
+        }
+
         /* Responsive Design */
         @media screen and (max-width: 768px) {
             .sidebar {
@@ -168,7 +172,7 @@
         <!-- Header -->
         <div class="header">
             <h1>Dashboard Overview</h1>
-            <button>Add New</button>
+            <button>Add Member</button>
         </div>
 
         <!-- Dashboard Cards -->
@@ -176,23 +180,23 @@
             <div class="card">
                 <div class="icon">📈</div>
                 <div class="title">Total Sales</div>
-                <div class="value">$50,000</div>
+                <div class="value">{{total_sales}}</div>
             </div>
             <div class="card">
                 <div class="icon">🛒</div>
-                <div class="title">Orders</div>
-                <div class="value">1,250</div>
+                <div class="title">Order Complete</div>
+                <div class="value">{{order_completed}}</div>
             </div>
             <div class="card">
                 <div class="icon">👤</div>
-                <div class="title">Users</div>
-                <div class="value">5,500</div>
+                <div class="title">My Users</div>
+                <div class="value">{{total_employee}}</div>
             </div>
         </div>
 
         <!-- Transactions Table -->
         <div class="table-container">
-            <h2>Recent Transactions</h2>
+            <h2>Todays Order</h2>
             <table class="table">
                 <thead>
                     <tr>
