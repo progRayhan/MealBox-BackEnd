@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Meal Management{% endblock %}</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+        body {
+            display: flex;
+            min-height: 100vh;
+            background-color: #f4f4f4;
+        }
+        .sidebar {
+            width: 250px;
+            background: #2C3E50;
+            color: white;
+            padding: 20px;
+            position: fixed;
+            height: 100%;
+        }
+        .sidebar h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .sidebar ul {
+            list-style: none;
+        }
+        .sidebar ul li {
+            padding: 10px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .sidebar ul li a {
+            text-decoration: none;
+            color: white;
+            display: block;
+            padding: 10px;
+            border-radius: 5px;
+            transition: background 0.3s ease;
+        }
+        .sidebar ul li a:hover {
+            background: #34495E;
+        }
+        .sidebar ul li.active a {
+            background: #1ABC9C;
+        }
+        .content {
+            margin-left: 270px;
+            padding: 20px;
+            flex: 1;
+        }
+        .header {
+            background: #3498DB;
+            color: white;
+            padding: 15px;
+            text-align: center;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <h2>Meal Manager</h2>
+        <ul>
+            <li><a href="{% url 'dashboard' %}" class="nav-link" data-page="dashboard">Dashboard</a></li>
+            <li><a href="{% url 'orders' %}" class="nav-link" data-page="orders">Orders</a></li>
+            <li><a href="{% url 'meals' %}" class="nav-link" data-page="meals">Meals</a></li>
+            <li><a href="{% url 'settings' %}" class="nav-link" data-page="settings">Settings</a></li>
+        </ul>
+    </div>
+    <div class="content">
+        {% block content %}{% endblock %}
+    </div>
+
+    <script>
+        // Highlight the active tab based on the current URL
+        document.addEventListener("DOMContentLoaded", function () {
+            let currentPath = window.location.pathname;
+            let navLinks = document.querySelectorAll(".nav-link");
+
+            navLinks.forEach(link => {
+                if (link.getAttribute("href") === currentPath) {
+                    link.parentElement.classList.add("active");
+                }
+            });
+        });
+    </script>
+</body>
+</html>
