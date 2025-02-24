@@ -1,7 +1,214 @@
 {% extends "base.html" %}
-{% block title %}Orders{% endblock %}
+{% block title %}Order List{% endblock %}
 
 {% block content %}
-<div class="header">Orders Page</div>
-<p>Order details will be displayed here.</p>
+<!-- Header for the page -->
+<div class="header">Today's Orders</div>
+
+<!-- Search Box -->
+<div class="search-container">
+    <form method="GET" action="">
+        <input type="text" name="q" placeholder="Search by Order ID..." value="{{ query }}">
+        <button type="submit">Search</button>
+    </form>
+</div>
+
+<!-- Orders Table -->
+<div class="table-container">
+    <h3>Today's Orders</h3>
+    <div class="table-wrapper">
+        <table>
+            <thead>
+                <tr>
+                    <th>Order ID</th>
+                    <th>User</th>
+                    <th>Payment</th>
+                    <th>Meal Status</th>
+                    <th>Order Time</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for meal in staff_meals %}
+                    <tr class="{% if meal.deliver_status == 'delivered' %}delivered{% elif meal.deliver_status == 'pending' %}pending{% else %}canceled{% endif %}">
+                        <td>{{ meal.id }}</td>
+                        <td>{{ meal.employee.name }}</td>
+                        <td>{{ meal.payment_status|title }}</td>
+                        <td>{{ meal.deliver_status|title }}</td>
+                        <td>{{ meal.order_datetime|date:"M d, Y - H:i" }}</td>
+                        <td>
+                            {% if meal.deliver_status != 'canceled' %}
+                                <form method="POST" action="{% url 'cancel_order' %}">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="order_id" value="{{ meal.id }}">
+                                    <button type="submit" class="cancel-btn">Cancel</button>
+                                </form>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% empty %}
+                    <tr>
+                        <td colspan="6" class="no-data">No orders found.</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Pagination -->
+    {% if staff_meals.has_other_pages %}
+        <div class="pagination">
+            {% if staff_meals.has_previous %}
+                <a href="?q={{ query }}&page=1">&laquo; First</a>
+                <a href="?q={{ query }}&page={{ staff_meals.previous_page_number }}">Previous</a>
+            {% endif %}
+
+            <span class="current-page">Page {{ staff_meals.number }} of {{ staff_meals.paginator.num_pages }}</span>
+
+            {% if staff_meals.has_next %}
+                <a href="?q={{ query }}&page={{ staff_meals.next_page_number }}">Next</a>
+                <a href="?q={{ query }}&page={{ staff_meals.paginator.num_pages }}">Last &raquo;</a>
+            {% endif %}
+        </div>
+    {% endif %}
+</div>
+
+<!-- Styling -->
+<style>
+    /* Search Box Styling */
+    .search-container {
+        text-align: center;
+        margin-bottom: 15px;
+        margin-top: 15px;
+    }
+
+    .search-container input {
+        padding: 8px;
+        width: 250px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        outline: none;
+    }
+
+    .search-container button {
+        padding: 8px 12px;
+        background: #3498DB;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    .search-container button:hover {
+        background: #2980B9;
+    }
+
+    /* Cancel Button Styling */
+    .cancel-btn {
+        padding: 8px 12px;
+        background: #e74c3c;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: bold;
+        transition: background 0.3s ease, transform 0.2s ease;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+    
+    .cancel-btn:hover {
+        background: #c0392b;
+        transform: scale(1.05);
+    }
+    
+    .cancel-btn:active {
+        background: #a93226;
+        transform: scale(0.95);
+    }
+
+    /* Table Container and Table Styling */
+    .table-container {
+        width: 100%;
+        background: white;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        margin: 20px auto;
+    }
+
+    .table-container h3 {
+        text-align: center;
+        margin-bottom: 15px;
+        color: #2C3E50;
+    }
+
+    .table-wrapper {
+        overflow-x: auto;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        text-align: left;
+    }
+
+    thead {
+        background: #2C3E50;
+        color: white;
+    }
+
+    th, td {
+        padding: 12px;
+        border-bottom: 1px solid #ddd;
+    }
+
+    tr:nth-child(even) {
+        background: #f4f4f4;
+    }
+
+    .delivered {
+        background: #D4EDDA;
+    }
+
+    .pending {
+        background: #FFF3CD;
+    }
+
+    .canceled {
+        background: #F8D7DA;
+    }
+
+    .no-data {
+        text-align: center;
+        font-style: italic;
+        color: #888;
+    }
+
+    /* Pagination Styles */
+    .pagination {
+        text-align: center;
+        margin-top: 15px;
+    }
+
+    .pagination a {
+        padding: 8px 12px;
+        margin: 2px;
+        border: 1px solid #2C3E50;
+        color: #2C3E50;
+        text-decoration: none;
+        border-radius: 4px;
+        display: inline-block;
+    }
+
+    .pagination a:hover {
+        background: #2C3E50;
+        color: white;
+    }
+
+    .current-page {
+        padding: 8px 12px;
+        font-weight: bold;
+        color: #2C3E50;
+    }
+</style>
 {% endblock %}
