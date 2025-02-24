@@ -1,5 +1,5 @@
 from django.urls import path
-from meal_manager.views.staff_dashboard import DashboardView, OrdersView, MealsView, SettingsView
+from meal_manager.views.staff_dashboard import DashboardView, OrdersView, MealsView, SettingsView, CancelOrderView
 
 urlpatterns = [
     path(
@@ -22,4 +22,10 @@ urlpatterns = [
         view=SettingsView.as_view(), 
         name='settings',
     ),
+    path(
+        route='cancel-order/', 
+        view=CancelOrderView.as_view(), 
+        name='cancel_order'
+    ),
+
 ]
