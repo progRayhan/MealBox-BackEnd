@@ -8,7 +8,7 @@ from meal_user.models import Employee
 class MealRate(models.Model):
     vendor_name = models.CharField(max_length=100)
     vendor_phone = models.CharField(max_length=11, validators=[PHONE_REGEX], unique=True, null=True, blank=True)
-    staff = models.ForeignKey(Staff, on_delete=models.DO_NOTHING, related_name="staff")
+    staff = models.ForeignKey(Staff, on_delete=models.DO_NOTHING, related_name="staff_meal")
     meal_rate = models.PositiveIntegerField()
 
     def __str__(self):

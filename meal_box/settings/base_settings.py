@@ -1,8 +1,8 @@
 from pathlib import Path
 from decouple import config
-import dj_database_url
 
-BASE_DIR = Path(__file__).resolve().parent.parent
+
+BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
 SECRET_KEY = 'django-insecure-f@*!%48ytb14uz-uayjz@#2)ysp996(x3897_#g6uc35y1dy2-'
 
@@ -60,11 +60,14 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'meal_box.wsgi.application'
 
-DATABASE_URL = config("DATABASE_URL")
-
+# DATABASE_URL = config("DATABASE_URL")
 DATABASES = {
-    'default': dj_database_url.parse(DATABASE_URL)
+    'default': {
+        'ENGINE': "django.db.backends.sqlite3",
+        'NAME': BASE_DIR / "db1.sqlite3",
+    }
 }
+
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -92,3 +95,10 @@ USE_TZ = True
 STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+AUTH_USER_MODEL="meal_user.staff"
+
+AUTHENTICATION_BACKENDS = [
+    'auth_backend.multimodel_auth_backend.MultiModelAuthBackend',  # Custom backend
+    'django.contrib.auth.backends.ModelBackend',  # Default backend
+]
