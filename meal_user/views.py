@@ -1,6 +1,8 @@
+from django import urls
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login
 from django.views import View
+from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import JsonResponse
 
@@ -10,6 +12,8 @@ from _applibs.choice_fields import DeliverStatus
 from django.http import JsonResponse
 from django.utils import timezone
 from datetime import timedelta
+
+from meal_user.models import Staff
 
 
 class LoginView(View):
@@ -25,14 +29,22 @@ class LoginView(View):
 
         user = authenticate(request, username=username, password=password)
 
-        if user:
-            if user_type == "staff":
-                return render(request, "staff_dashboard.html")
+        if user is not None:
+            login(request, user)
+            if isinstance(user, Staff):
+                return redirect(urls.reverse("staff_dashboard"))
+            else:
+                return redirect("user_dashboard")
+
+        else:
+            messages.error(request, "Invalid username or password")
+
+        return render(request, "login.html")
 
         
-class StaffDashboardView(LoginRequiredMixin, View):
+class StaffDashboardView(View):
     def get(self, request, *args, **kwargs):
-        return render(request, "staff_dashboard.html")
+        return render(request, "staff_templetes/dashboard.html")
     
 
 class OrdersView(View):

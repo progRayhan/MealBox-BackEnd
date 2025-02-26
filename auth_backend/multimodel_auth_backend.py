@@ -25,14 +25,14 @@ class MultiModelAuthBackend(BaseBackend):
 
         return None
 
-    def get_user(self, user_id):
-        if self.req.POST.get('user_type') == 'employee':
-            try:
-                return Employee.objects.get(pk=user_id)
-            except Employee.DoesNotExist:
-                return None
-        else:
-            try:
-                return Staff.objects.get(pk=user_id)
-            except Staff.DoesNotExist:
-                return None
+    # def get_user(self, user_id):
+    #     if self.req.POST.get('user_type') == 'employee':
+    #         try:
+    #             return Employee.objects.get(pk=user_id)
+    #         except Employee.DoesNotExist:
+    #             return None
+    #     else:
+    #         try:
+    #             return Staff.objects.get(pk=user_id)
+    #         except Staff.DoesNotExist:
+    #             return None
