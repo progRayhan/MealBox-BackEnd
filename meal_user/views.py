@@ -73,17 +73,17 @@ class OrdersView(View):
             "staff_meals": staff_meals
         }
         
-        return render(request, "orders.html", context)
+        return render(request, "staff_templetes/orders.html", context)
 
 
 class MealsView(View):
     def get(self, request):
-        return render(request, 'meals.html')
+        return render(request, 'staff_templetes/meals.html')
 
 
 class SettingsView(View):
     def get(self, request):
-        return render(request, 'settings.html')
+        return render(request, 'staff_templetes/settings.html')
     
 
 class CancelOrderView(View):
