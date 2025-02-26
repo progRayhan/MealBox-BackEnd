@@ -58,6 +58,16 @@ class Staff(AbstractBaseUser):
         verbose_name_plural = "Staffs"
         db_table = "staff"
 
+    def has_perm(self, perm, obj=None):
+        if self.is_staff and self.is_active and not self.is_superuser:
+            return super().has_perm(perm, obj)
+        return True
+
+    def has_module_perms(self, app_label):
+        if self.is_staff and self.is_active and not self.is_superuser:
+            return super().has_module_perms(app_label)
+        return True
+
 
 
 
