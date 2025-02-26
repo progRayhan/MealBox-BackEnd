@@ -9,11 +9,6 @@ urlpatterns = [
         name="admin",
     ),
     path(
-        route='meal/',
-        view=include("meal_manager.urls"),
-        name="meal_manager",
-    ),
-    path(
         route='',
         view=include("meal_user.urls"),
         name="meal_user",

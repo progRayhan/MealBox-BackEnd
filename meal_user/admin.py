@@ -14,6 +14,7 @@ class EmployeeAdmin(admin.ModelAdmin):
 @admin.register(Staff)
 class StaffAdmin(admin.ModelAdmin):
     list_display = ("name", "phone_number", "email", "office", "total_sales", "order_completed", "total_employee",)
+    list_display_links = ("name", "phone_number", "email",)
     search_fields = ("name", "phone_number", "email")
     list_filter = ("office",)
     ordering = ("name",)
