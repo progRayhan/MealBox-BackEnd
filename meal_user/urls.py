@@ -8,7 +8,7 @@ urlpatterns = [
         name="login",
     ),
     path(
-        route="staff/dashboard/", 
+        route="staff/dashboard/",
         view=StaffDashboardView.as_view(), 
         name="staff_dashboard",
     ),

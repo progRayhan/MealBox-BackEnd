@@ -5,6 +5,9 @@ from django.views import View
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import JsonResponse
+from django.urls import reverse
+from django.views.generic import TemplateView
+from django.contrib.auth.decorators import login_required
 
 from meal_manager.models import MealTracker
 from _applibs.choice_fields import DeliverStatus
@@ -32,7 +35,7 @@ class LoginView(View):
         if user is not None:
             login(request, user)
             if isinstance(user, Staff):
-                return redirect(urls.reverse("staff_dashboard"))
+                return redirect(reverse("staff_dashboard"))
             else:
                 return redirect("user_dashboard")
 
@@ -42,9 +45,15 @@ class LoginView(View):
         return render(request, "login.html")
 
         
-class StaffDashboardView(View):
-    def get(self, request, *args, **kwargs):
-        return render(request, "staff_templetes/dashboard.html")
+class StaffDashboardView(LoginRequiredMixin, TemplateView):
+    login_url = "login"
+    template_name = "staff_templetes/dashboard.html"
+
+    # Optional: If you need to pass extra context to the template
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["welcome_message"] = "Welcome to the Staff Dashboard!"  # Example data
+        return context
     
 
 class OrdersView(View):
