@@ -5,7 +5,7 @@ urlpatterns = [
     path(
         route='dashboard/', 
         view=DashboardView.as_view(), 
-        name='dashboard',
+        name='staff_dashboard',
     ),
     path(
         route='orders/', 

@@ -2,6 +2,9 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
 from django.contrib import messages
 
+from meal_user.models import Staff
+
+
 def login_view(request):
     if request.method == "POST":
         username = request.POST.get("username")
@@ -10,7 +13,11 @@ def login_view(request):
 
         if user is not None:
             login(request, user)
-            return redirect("dashboard")
+            if isinstance(user, Staff):
+                return redirect("staff_dashboard")
+            else:
+                return redirect("user_dashboard")
+
         else:
             messages.error(request, "Invalid username or password")
 
